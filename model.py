@@ -18,13 +18,13 @@ training_set, test_set, class_set, test_class_set = train_test_split(feature_spa
 #class_set = class_set.values.ravel()
 #test_class_set = test_class_set.values.ravel()
 
-
+hidden_layers=(100,80,40)
 # Creating 4 different neural network to see the how different activation functions change the performance
 # MLPClassifier can take 4 different parameter as activation function these are {‘identity’, ‘logistic’, ‘tanh’, ‘relu’}
-mlp_1 = MLPClassifier(activation = 'identity', hidden_layer_sizes = (100, 80, 40), max_iter = 100, random_state = None, solver = 'lbfgs')
-mlp_2 = MLPClassifier(activation = 'logistic', hidden_layer_sizes = (100, 80, 40), max_iter = 100, random_state = None, solver = 'lbfgs')
-mlp_3 = MLPClassifier(activation = 'tanh', hidden_layer_sizes = (100, 80, 40), max_iter = 100, random_state = None, solver = 'lbfgs')
-mlp_4 = MLPClassifier(activation = 'relu', hidden_layer_sizes = (100, 80, 40), max_iter = 100, random_state = None, solver = 'lbfgs')
+mlp_1 = MLPClassifier(activation = 'identity', hidden_layer_sizes = hidden_layers, max_iter = 100, random_state = None, solver = 'lbfgs')
+mlp_2 = MLPClassifier(activation = 'logistic', hidden_layer_sizes = hidden_layers, max_iter = 100, random_state = None, solver = 'lbfgs')
+mlp_3 = MLPClassifier(activation = 'tanh', hidden_layer_sizes = hidden_layers, max_iter = 100, random_state = None, solver = 'lbfgs')
+mlp_4 = MLPClassifier(activation = 'relu', hidden_layer_sizes = hidden_layers, max_iter = 100, random_state = None, solver = 'lbfgs')
 
 # Fitting training sets to classifiers
 mlp_1.fit(training_set, class_set)
