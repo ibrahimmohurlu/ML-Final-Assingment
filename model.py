@@ -1,9 +1,7 @@
-import numpy as np
 import pandas as pd
 from sklearn.neural_network import MLPClassifier
 from sklearn.model_selection import train_test_split
 from sklearn.metrics import precision_score, recall_score
-from sklearn.preprocessing import StandardScaler
 
 #reading data and labels file
 data=pd.read_csv("data/data.csv")
@@ -17,14 +15,58 @@ feature_class = labels['disease_type']
 #Splitting data to test-train data sets %75 for train %25 for test
 training_set, test_set, class_set, test_class_set = train_test_split(feature_space, feature_class, test_size = 0.25, random_state = 42)
 
-class_set = class_set.values.ravel()
-test_class_set = test_class_set.values.ravel()
+#class_set = class_set.values.ravel()
+#test_class_set = test_class_set.values.ravel()
 
-#Normaliazing the data
-scaler = StandardScaler()
-scaler.fit(training_set)
 
-training_set=scaler.transform(test_set)
+# Creating 4 different neural network to see the how different activation functions change the performance
+# MLPClassifier can take 4 different parameter as activation function these are {‘identity’, ‘logistic’, ‘tanh’, ‘relu’}
+mlp_1 = MLPClassifier(activation = 'identity', hidden_layer_sizes = (100, 80, 40), max_iter = 100, random_state = None, solver = 'lbfgs')
+mlp_2 = MLPClassifier(activation = 'logistic', hidden_layer_sizes = (100, 80, 40), max_iter = 100, random_state = None, solver = 'lbfgs')
+mlp_3 = MLPClassifier(activation = 'tanh', hidden_layer_sizes = (100, 80, 40), max_iter = 100, random_state = None, solver = 'lbfgs')
+mlp_4 = MLPClassifier(activation = 'relu', hidden_layer_sizes = (100, 80, 40), max_iter = 100, random_state = None, solver = 'lbfgs')
+
+# Fitting training sets to classifiers
+mlp_1.fit(training_set, class_set)
+mlp_2.fit(training_set, class_set)
+mlp_3.fit(training_set, class_set)
+mlp_4.fit(training_set, class_set)
+
+# Function to calculate performance measures it will be used later
+def calculate_results(classifier):
+    #Getting predictions of our model
+    predictions = classifier.predict(test_set)
+    #Calculating Precision, Recall and F2 measure formulas
+    #Precision = TP / (TP + FP)
+    precision = precision_score(test_class_set, predictions, average = None)
+
+    #Recall = TP / (TP + FN)
+    recall = recall_score(test_class_set, predictions, average = None)
+
+    #F2 measure = 5 * precision * recall / (4 * precision + recall)
+    F2_measure = 5 * precision * recall / (4 * precision + recall)
+    #Collecting all the measures inside of a dictionary and returning it
+    results = {
+        'precision':precision,
+        'recall':recall,
+        'F2':F2_measure
+    }
+    return results
+
+# Using dictionary to store precision, recall and F2 measures
+results={
+    'mlp_1':calculate_results(mlp_1),
+    'mlp_2':calculate_results(mlp_2),
+    'mlp_3':calculate_results(mlp_3),
+    'mlp_4':calculate_results(mlp_4)
+}
+
+for key, value in results.items():
+    print(f"{key}:")
+    print(f"Precision = {value['precision']}")
+    print(f"Recall = {value['recall']}")
+    print(f"F2 = {value['F2']}\n")
+
 
 
 
