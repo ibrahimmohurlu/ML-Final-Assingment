@@ -15,10 +15,9 @@ feature_class = labels['disease_type']
 #Splitting data to test-train data sets %75 for train %25 for test
 training_set, test_set, class_set, test_class_set = train_test_split(feature_space, feature_class, test_size = 0.25, random_state = 42)
 
-#class_set = class_set.values.ravel()
-#test_class_set = test_class_set.values.ravel()
-
+#Tuple that will be passed as a parameter while creating MLPClassifier
 hidden_layers=(100,80,40)
+
 # Creating 4 different neural network to see the how different activation functions change the performance
 # MLPClassifier can take 4 different parameter as activation function these are {‘identity’, ‘logistic’, ‘tanh’, ‘relu’}
 mlp_1 = MLPClassifier(activation = 'identity', hidden_layer_sizes = hidden_layers, max_iter = 100, random_state = None, solver = 'lbfgs')
@@ -61,6 +60,7 @@ results={
     'mlp_4':calculate_results(mlp_4)
 }
 
+#printing performance measures
 for key, value in results.items():
     print(f"{key}:")
     print(f"Precision = {value['precision']}")
