@@ -4,8 +4,8 @@ from sklearn.model_selection import train_test_split
 from sklearn.metrics import precision_score, recall_score
 
 #reading data and labels file
-data=pd.read_csv("data/data.csv")
-labels=pd.read_csv("data/labels.csv")
+data = pd.read_csv("data/data.csv")
+labels = pd.read_csv("data/labels.csv")
 
 #Dropping the column that is also present in the labels file
 feature_space = data.drop('Sample', axis = 1)
@@ -46,6 +46,7 @@ def calculate_results(classifier):
     F2_measure = 5 * precision * recall / (4 * precision + recall)
     #Collecting all the measures inside of a dictionary and returning it
     results = {
+        'activation_function':classifier.activation,
         'precision':precision,
         'recall':recall,
         'F2':F2_measure
@@ -62,7 +63,7 @@ results={
 
 #printing performance measures
 for key, value in results.items():
-    print(f"{key}:")
+    print(f"{key}({value['activation_function']}):")
     print(f"Precision = {value['precision']}")
     print(f"Recall = {value['recall']}")
     print(f"F2 = {value['F2']}\n")
