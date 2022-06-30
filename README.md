@@ -25,11 +25,11 @@ In this project Neural Networks implemented using scikit-learn. 4 models created
 General formula for these measures are;
 
 $$
-Precision = \dfrac {correct number of prediction of the disease} {total number of elements predicted as disease}
+Precision = \dfrac {correct \ number \ of \ prediction \ of \ the \ disease} {total \ number \ of \ elements \ predicted \ as \ disease}
 $$
 
 $$
-Recall = \dfrac {correct number of prediction of the disease} {total number of elements with disease}
+Recall = \dfrac {correct \ number \ of \ prediction \ of \ the \ disease} {total \ number \ of \ elements \ with \ disease}
 $$
 
 $$
